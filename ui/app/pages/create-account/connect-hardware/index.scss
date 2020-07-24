@@ -92,10 +92,10 @@
   }
 
   &__learn-more {
+    @include H6;
+
     margin-top: 15px;
-    font-size: 14px;
     color: #5b5d67;
-    line-height: 19px;
     text-align: center;
     cursor: pointer;
 
@@ -194,23 +194,22 @@
   }
 
   &__title {
+    @include H5;
+
     margin-bottom: 23px;
     align-self: flex-start;
     color: $scorpion;
-    font-size: 16px;
-    line-height: 21px;
     font-weight: bold;
     display: flex;
     flex: 1;
   }
 
   &__device {
+    @include Paragraph;
+
     margin-bottom: 23px;
     align-self: flex-end;
     color: $scorpion;
-    font-size: 16px;
-    line-height: 21px;
-    font-weight: normal;
     display: flex;
   }
 
@@ -280,12 +279,12 @@
   margin-top: 10px;
 
   &__button {
+    @include H6;
+
     background: #fff;
     height: 19px;
     display: flex;
     color: #33a4e7;
-    font-size: 14px;
-    line-height: 19px;
     border: none;
     min-width: 46px;
     margin-right: 0;
