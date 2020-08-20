@@ -42,8 +42,6 @@
   }
 
   &__text {
-    @include H7;
-
     width: 100%;
     text-overflow: ellipsis;
     overflow: hidden;
