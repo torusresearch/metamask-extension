@@ -59,8 +59,7 @@
   }
 
   .fa-question-circle {
-    @include Paragraph;
-
+    font-size: $font-size-paragraph;
     margin: 0 4px 0 6px;
     flex: 0 0 auto;
   }

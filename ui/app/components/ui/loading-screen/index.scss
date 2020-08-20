@@ -26,14 +26,6 @@
     align-items: center;
   }
 
-  &__message {
-    @include H6;
-
-    margin-top: 32px;
-    font-weight: 400;
-    color: $manatee;
-  }
-
   &__error-screen {
     display: flex;
     flex-direction: column;

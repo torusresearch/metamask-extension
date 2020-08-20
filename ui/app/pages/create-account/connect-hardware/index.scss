@@ -149,7 +149,7 @@
     }
 
     &__msg {
-      @include H4;
+      @include H6;
 
       color: #9b9b9b;
       margin-top: 12px;
@@ -224,7 +224,7 @@
   }
 
   &__item {
-    @include H4;
+    @include Paragraph;
 
     flex-direction: row;
     display: flex;
@@ -346,7 +346,7 @@
   padding: 22px;
 
   a {
-    @include H4;
+    @include H6;
 
     color: #2f9ae0;
     cursor: pointer;

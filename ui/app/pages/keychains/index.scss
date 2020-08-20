@@ -93,58 +93,16 @@
   font-weight: 200;
 }
 
-.import-account__faq-link {
-  @include H4;
-}
-
 .import-account__selector-label {
   @include Paragraph;
 
   color: #1b344d;
 }
 
-.import-account__dropdown {
-  @include H4;
-
-  width: 325px;
-  border: 1px solid #cdcdcd;
-  border-radius: 4px;
-  background-color: #fff;
-  margin-top: 14px;
-  color: #5b5d67;
-  padding: 14px 21px;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  cursor: pointer;
-}
-
-.import-account__description-text {
-  @include H4;
-
-  color: #757575;
-  margin-top: 21px;
-}
-
 .import-account__input-wrapper {
   display: flex;
   flex-flow: column nowrap;
   margin-top: 30px;
-}
-
-.import-account__input-error-message {
-  @include Paragraph;
-
-  margin-top: 10px;
-  width: 422px;
-  color: #ff001f;
-}
-
-.import-account__input-label {
-  @include H4;
-
-  margin-bottom: 9px;
-  color: #1b344d;
 }
 
 .import-account__input-label__disabled {
@@ -165,32 +123,10 @@
   display: none;
 }
 
-.import-account__file-input-label {
-  @include H4;
-
-  height: 53px;
-  width: 148px;
-  border: 1px solid #1b344d;
-  border-radius: 4px;
-  color: #1b344d;
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-
 .import-account__file-picker-wrapper {
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-}
-
-.import-account__file-name {
-  @include H4;
-
-  color: #000;
-  margin-left: 22px;
 }
 
 .reveal-seed {

@@ -1,6 +1,6 @@
 .export-private-key-modal {
   &__body-title {
-    @include H5;
+    @include H4;
 
     margin-top: 16px;
     margin-bottom: 16px;
@@ -14,7 +14,7 @@
   }
 
   &__account-name {
-    @include H5;
+    @include H4;
 
     margin-top: 9px;
   }

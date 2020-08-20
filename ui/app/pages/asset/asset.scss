@@ -23,8 +23,7 @@
   background-color: inherit;
 
   &__chevron {
-    @include Paragraph;
-
+    font-size: $font-size-paragraph;
     padding: 0 10px 0 2px;
   }
 
@@ -35,8 +34,7 @@
 
 .token-options {
   &__button {
-    @include H4;
-
+    font-size: $font-size-paragraph;
     color: $Black-100;
     background-color: inherit;
     padding: 2px 8px;

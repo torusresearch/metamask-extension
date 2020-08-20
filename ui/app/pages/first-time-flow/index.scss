@@ -94,21 +94,6 @@
     margin-bottom: 20px;
   }
 
-  &__markdown {
-    @include H7;
-
-    border: 1px solid #979797;
-    border-radius: 8px;
-    background-color: $white;
-    height: 200px;
-    overflow-y: auto;
-    color: #757575;
-    text-align: justify;
-    margin: 0;
-    padding: 16px 20px;
-    height: 30vh;
-  }
-
   &__text-block {
     margin-bottom: 24px;
     color: black;
