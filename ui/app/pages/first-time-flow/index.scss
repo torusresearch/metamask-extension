@@ -39,7 +39,8 @@
   }
 
   &__header {
-    font-size: 2.5rem;
+    @include H1;
+
     margin-bottom: 24px;
     color: black;
   }
@@ -63,9 +64,10 @@
   }
 
   &__textarea-label {
+    @include H4;
+
     margin-bottom: 9px;
     color: #1b344d;
-    font-size: 18px;
   }
 
   &__textarea {
@@ -112,8 +114,9 @@
     color: black;
 
     @media screen and (max-width: $break-small) {
+      @include H6;
+
       margin-bottom: 16px;
-      font-size: 0.875rem;
     }
   }
 

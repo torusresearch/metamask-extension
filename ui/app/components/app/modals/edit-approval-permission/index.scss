@@ -35,8 +35,9 @@
 
     &__account,
     &__balance {
+      @include H6;
+
       font-weight: normal;
-      font-size: 14px;
       color: #24292e;
     }
 

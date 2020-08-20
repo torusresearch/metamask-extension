@@ -50,10 +50,11 @@
       overflow-y: auto;
 
       &__link {
+        @include Paragraph;
+
         @extend %row-nowrap;
 
         padding: 1rem;
-        font-size: 1rem;
         border-bottom: 1px solid $alto;
         align-items: center;
         justify-content: flex-start;
@@ -239,13 +240,14 @@
 
   &__selected-input {
     &__title {
-      @extend %ellipsify;
+      @include H6;
 
-      font-size: 0.875rem;
+      @extend %ellipsify;
     }
 
     &__subtitle {
-      font-size: 0.75rem;
+      @include H7;
+
       color: $Grey-500;
       margin-top: 0.25rem;
     }

@@ -27,9 +27,10 @@
   }
 
   &__message {
+    @include H6;
+
     margin-top: 32px;
     font-weight: 400;
-    font-size: 20px;
     color: $manatee;
   }
 

@@ -2,7 +2,8 @@
   padding: 16px;
 
   &__header {
-    font-size: 0.75rem;
+    @include H7;
+
     display: flex;
   }
 

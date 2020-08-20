@@ -84,6 +84,8 @@
     }
 
     &--warning {
+      @include H7;
+
       background-color: #fefae8;
       border: 1px solid #ffd33d;
       width: 93%;
@@ -91,7 +93,6 @@
       box-sizing: border-box;
       padding: 12px;
       margin: 12px 0;
-      font-size: 12px;
     }
   }
 

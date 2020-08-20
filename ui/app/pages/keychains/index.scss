@@ -78,13 +78,14 @@
 }
 
 .import-account__secret-phrase {
+  @include Paragraph;
+
   height: 190px;
   width: 495px;
   border: 1px solid #cdcdcd;
   border-radius: 6px;
   background-color: #fff;
   padding: 17px;
-  font-size: 16px;
 }
 
 .import-account__secret-phrase::placeholder {
@@ -97,8 +98,9 @@
 }
 
 .import-account__selector-label {
+  @include Paragraph;
+
   color: #1b344d;
-  font-size: 16px;
 }
 
 .import-account__dropdown {
@@ -203,8 +205,9 @@
   }
 
   &__error {
+    @include H6;
+
     color: $crimson;
-    font-size: 14px;
     padding-top: 5px;
   }
 }

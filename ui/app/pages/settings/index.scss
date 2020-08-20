@@ -18,15 +18,17 @@
     flex: 0 0 auto;
 
     &__title {
+      @include H3;
+
       flex: 1 0 auto;
-      font-size: 24px;
     }
   }
 
   &__subheader,
   &__subheader--link {
+    @include H4;
+
     padding: 16px 4px;
-    font-size: 20px;
     border-bottom: 1px solid $alto;
     margin-right: 24px;
     height: 72px;
@@ -185,7 +187,8 @@
   }
 
   &__content-description {
-    font-size: 14px;
+    @include H6;
+
     color: $dusty-gray;
     padding-top: 5px;
   }

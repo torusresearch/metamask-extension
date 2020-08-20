@@ -73,9 +73,10 @@
 
       a,
       a:hover {
+        @include H7;
+
         text-decoration: none;
         cursor: pointer;
-        font-size: 0.75rem;
         text-transform: uppercase;
         color: #2f9ae0;
       }
@@ -91,10 +92,10 @@
   }
 
   &__back-button {
+    @include Paragraph;
+
     color: #2f9ae0;
-    font-size: 1rem;
     cursor: pointer;
-    font-weight: 400;
   }
 
   &__title {
@@ -118,9 +119,10 @@
   }
 
   &__tab {
+    @include Paragraph;
+
     min-width: 5rem;
     color: $dusty-gray;
-    font-size: 1rem;
     border-bottom: none;
     margin-right: 16px;
 

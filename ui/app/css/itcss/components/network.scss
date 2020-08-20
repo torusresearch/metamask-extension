@@ -42,9 +42,10 @@
 }
 
 .network-indicator {
+  @include H8;
+
   display: flex;
   align-items: center;
-  font-size: 0.6em;
 
   &__down-arrow {
     height: 8px;
@@ -58,8 +59,9 @@
   }
 
   .fa-question-circle {
+    @include Paragraph;
+
     margin: 0 4px 0 6px;
-    font-size: 1rem;
     flex: 0 0 auto;
   }
 }
