@@ -8,11 +8,11 @@ const firstTimeFlowTypeNameMap = {
   import: 'Selected Import Wallet',
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, {nextRoute}) => {
   const { firstTimeFlowType, participateInMetaMetrics } = state.metamask;
 
   return {
-    nextRoute: getFirstTimeFlowTypeRoute(state),
+    nextRoute: nextRoute || getFirstTimeFlowTypeRoute(state),
     firstTimeSelectionMetaMetricsName:
       firstTimeFlowTypeNameMap[firstTimeFlowType],
     participateInMetaMetrics,

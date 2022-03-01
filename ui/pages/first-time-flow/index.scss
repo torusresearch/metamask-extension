@@ -72,6 +72,11 @@
     margin-top: 24px;
   }
 
+  &__form {
+    display: flex;
+    flex-direction: column;
+  }
+
   &__checkbox {
     background: #fff;
     border: 1px solid #cdcdcd;

@@ -45,6 +45,7 @@ export default class FirstTimeFlow extends PureComponent {
 
   state = {
     seedPhrase: '',
+    isSocialLogin: false,
   };
 
   componentDidMount() {
@@ -68,6 +69,10 @@ export default class FirstTimeFlow extends PureComponent {
     if (isInitialized && !isUnlocked) {
       history.push(INITIALIZE_UNLOCK_ROUTE);
     }
+  }
+
+  setSocialLogin = (seedPhrase) => {
+    this.setState({seedPhrase, isSocialLogin: true});
   }
 
   handleCreateNewAccount = async (password) => {
@@ -149,6 +154,7 @@ export default class FirstTimeFlow extends PureComponent {
                 {...routeProps}
                 onCreateNewAccount={this.handleCreateNewAccount}
                 onCreateNewAccountFromSeed={this.handleImportWithSeedPhrase}
+                seedPhrase={this.state.seedPhrase}
               />
             )}
           />
@@ -167,7 +173,9 @@ export default class FirstTimeFlow extends PureComponent {
             path={INITIALIZE_END_OF_FLOW_ROUTE}
             component={EndOfFlow}
           />
-          <Route exact path={INITIALIZE_WELCOME_ROUTE} component={Welcome} />
+          <Route exact path={INITIALIZE_WELCOME_ROUTE} render={(routeProps) => (
+            <Welcome {...routeProps} setSocialLogin={this.setSocialLogin}/>
+          )} />
           {
             ///: BEGIN:ONLY_INCLUDE_IN(flask)
           }
@@ -189,7 +197,7 @@ export default class FirstTimeFlow extends PureComponent {
             path={INITIALIZE_METAMETRICS_OPT_IN_ROUTE}
             component={MetaMetricsOptInScreen}
           />
-          <Route exact path="*" component={FirstTimeFlowSwitch} />
+          <Route exact path="*" component={FirstTimeFlowSwitch} nextRoute={this.state.isSocialLogin && DEFAULT_ROUTE}/>
         </Switch>
       </div>
     );

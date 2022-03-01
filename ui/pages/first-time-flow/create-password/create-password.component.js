@@ -16,6 +16,7 @@ export default class CreatePassword extends PureComponent {
     isInitialized: PropTypes.bool,
     onCreateNewAccount: PropTypes.func,
     onCreateNewAccountFromSeed: PropTypes.func,
+    seedPhrase: PropTypes.string,
   };
 
   componentDidMount() {
@@ -26,8 +27,15 @@ export default class CreatePassword extends PureComponent {
     }
   }
 
+  handleNewAccount=(password)=>{
+    if (this.props.seedPhrase) {
+      return this.props.onCreateNewAccountFromSeed(password, this.props.seedPhrase);
+    }
+    else return this.props.onCreateNewAccount(password);
+  }
+
   render() {
-    const { onCreateNewAccount, onCreateNewAccountFromSeed } = this.props;
+    const { onCreateNewAccountFromSeed } = this.props;
 
     return (
       <div className="first-time-flow__wrapper">
@@ -47,7 +55,7 @@ export default class CreatePassword extends PureComponent {
             exact
             path={INITIALIZE_CREATE_PASSWORD_ROUTE}
             render={(routeProps) => (
-              <NewAccount {...routeProps} onSubmit={onCreateNewAccount} />
+              <NewAccount {...routeProps} socialLogin={!!this.props.seedPhrase} onSubmit={this.handleNewAccount} />
             )}
           />
         </Switch>

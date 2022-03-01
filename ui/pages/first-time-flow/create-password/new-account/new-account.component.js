@@ -4,8 +4,11 @@ import Button from '../../../../components/ui/button';
 import {
   INITIALIZE_SEED_PHRASE_INTRO_ROUTE,
   INITIALIZE_SELECT_ACTION_ROUTE,
+  INITIALIZE_METAMETRICS_OPT_IN_ROUTE
 } from '../../../../helpers/constants/routes';
 import TextField from '../../../../components/ui/text-field';
+import { returnToOnboardingInitiator } from '../../onboarding-initiator-util';
+
 
 export default class NewAccount extends PureComponent {
   static contextTypes = {
@@ -16,6 +19,13 @@ export default class NewAccount extends PureComponent {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
+    socialLogin: PropTypes.bool.isRequired,
+    setSeedPhraseBackedUp: PropTypes.func,
+    setCompletedOnboarding: PropTypes.func,
+    onboardingInitiator: PropTypes.exact({
+      location: PropTypes.string,
+      tabId: PropTypes.number,
+    }),
   };
 
   state = {
@@ -95,7 +105,7 @@ export default class NewAccount extends PureComponent {
     }
 
     const { password } = this.state;
-    const { onSubmit, history } = this.props;
+    const { onSubmit, history, socialLogin, setCompletedOnboarding, setSeedPhraseBackedUp, onboardingInitiator } = this.props;
 
     try {
       await onSubmit(password);
@@ -108,7 +118,16 @@ export default class NewAccount extends PureComponent {
         },
       });
 
-      history.push(INITIALIZE_SEED_PHRASE_INTRO_ROUTE);
+      if(!socialLogin)
+        history.push(INITIALIZE_SEED_PHRASE_INTRO_ROUTE);
+      else 
+      {
+        await Promise.all([setCompletedOnboarding(), setSeedPhraseBackedUp(false)]);
+        if (onboardingInitiator) {
+          await returnToOnboardingInitiator(onboardingInitiator);
+        }
+        history.replace(INITIALIZE_METAMETRICS_OPT_IN_ROUTE);
+      }
     } catch (error) {
       this.setState({ passwordError: error.message });
     }

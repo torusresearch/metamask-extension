@@ -8,14 +8,18 @@ import {
   INITIALIZE_SELECT_ACTION_ROUTE,
 } from '../../../helpers/constants/routes';
 import { isBeta } from '../../../helpers/utils/build-types';
+import extension from 'extensionizer';
 import WelcomeFooter from './welcome-footer.component';
 import BetaWelcomeFooter from './beta-welcome-footer.component';
+import {entropyToMnemonic} from "bip39"
+
 
 export default class Welcome extends PureComponent {
   static propTypes = {
     history: PropTypes.object,
     participateInMetaMetrics: PropTypes.bool,
     welcomeScreenSeen: PropTypes.bool,
+    setSocialLogin: PropTypes.func,
   };
 
   static contextTypes = {
@@ -42,6 +46,14 @@ export default class Welcome extends PureComponent {
     this.props.history.push(INITIALIZE_SELECT_ACTION_ROUTE);
   };
 
+  handleLogin = async (provider) => {
+    extension.runtime.sendMessage({type: "Web3Auth_login", payload: provider}, (response)=>{
+      const seedPhrase = entropyToMnemonic(response.privKey);
+      this.props.setSocialLogin(seedPhrase);
+      this.props.history.push(INITIALIZE_CREATE_PASSWORD_ROUTE);
+    });
+  }
+
   render() {
     const { t } = this.context;
 
@@ -54,12 +66,31 @@ export default class Welcome extends PureComponent {
             height="125"
           />
           {isBeta() ? <BetaWelcomeFooter /> : <WelcomeFooter />}
+          <div className="first-time-category">
+            <span className="first-time-category__text">Beginners</span>
+            <div className="first-time-category__line"></div>
+          </div>
+          <Button type="primary" className="first-time-flow__button" onClick={()=>this.handleLogin("google")}>
+            <img src="./images/logo/Web3Auth/Google.svg" className="first-time-flow__logo"/>
+            Continue with Google
+          </Button>
+          <Button type="primary" className="first-time-flow__button" onClick={()=>this.handleLogin("twitter")}>
+            <img src="./images/logo/Web3Auth/Twitter.svg" className="first-time-flow__logo"/> 
+            Continue with Twitter
+          </Button>
+          <div className="first-time-category">
+            <span className="first-time-category__text">Advanced Users</span>
+            <div className="first-time-category__line"></div>
+          </div>
           <Button
-            type="primary"
+            type="secondary"
             className="first-time-flow__button"
             onClick={this.handleContinue}
           >
-            {t('getStarted')}
+            Import Seed Phrase
+          </Button>
+          <Button type="secondary" className="first-time-flow__button">
+            Connect with Ledger
           </Button>
         </div>
       </div>
