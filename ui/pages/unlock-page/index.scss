@@ -15,6 +15,26 @@
     justify-content: center;
     flex: 1 0 auto;
   }
+  
+  &__button {
+    background-color: var(--Blue-500);
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    margin: 1rem 0;
+    &Logo {
+      border-radius: 50%;
+      height: 2rem;
+      width: 2rem;
+      margin-right: 1rem;
+    }
+  }
+
+  &__divider {
+    text-align: center;
+    margin: 1rem 0;
+  }
 
   &__mascot-container {
     margin-top: 24px;
@@ -30,7 +50,7 @@
 
   &__form {
     width: 100%;
-    margin: 56px 0 8px;
+    margin: 2rem 0 8px;
   }
 
   &__links {
@@ -43,6 +63,8 @@
   &__link {
     font-size: unset;
     font-weight: bold;
+    cursor: pointer;
+    color: var(--Blue-500);
   }
 
   &__support {

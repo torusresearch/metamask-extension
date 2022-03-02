@@ -1497,6 +1497,7 @@ export default class MetamaskController extends EventEmitter {
       createNewVaultAndKeychain: this.createNewVaultAndKeychain.bind(this),
       createNewVaultAndRestore: this.createNewVaultAndRestore.bind(this),
       exportAccount: keyringController.exportAccount.bind(keyringController),
+      loginWithSeedPhrase: this.loginWithSeedPhrase.bind(this),
 
       // txController
       cancelTransaction: txController.cancelTransaction.bind(txController),
@@ -1862,6 +1863,40 @@ export default class MetamaskController extends EventEmitter {
     } finally {
       releaseLock();
     }
+  }
+
+  async loginWithSeedPhrase(seed) {
+    const {keyringController} = this;
+
+    // clear known identities
+    this.preferencesController.setAddresses([]);
+
+    // clear permissions
+    this.permissionController.clearState();
+
+    // clear accounts in accountTracker
+    this.accountTracker.clearAccounts();
+
+    // clear cachedBalances
+    this.cachedBalancesController.clearCachedBalances();
+
+    // clear unapproved transactions
+    this.txController.txStateManager.clearUnapprovedTxs();
+
+    await keyringController.clearKeyrings();
+    const Keyring = await keyringController.getKeyringClassForType('HD Key Tree');
+    const keyring = new Keyring({
+          mnemonic: seed,
+          numberOfAccounts: 1,
+        });
+    const [firstAccount] = await keyring.getAccounts();
+    if (!firstAccount) {
+          throw new Error('KeyringController - First Account not found.')
+        }
+    keyringController.keyrings.push(keyring);
+    await keyringController._updateMemStoreKeyrings();
+    keyringController.setUnlocked();
+    await keyringController.fullUpdate();
   }
 
   /**

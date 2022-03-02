@@ -11,7 +11,8 @@ import { isBeta } from '../../../helpers/utils/build-types';
 import extension from 'extensionizer';
 import WelcomeFooter from './welcome-footer.component';
 import BetaWelcomeFooter from './beta-welcome-footer.component';
-import {entropyToMnemonic} from "bip39"
+import {entropyToMnemonic} from "bip39";
+
 
 
 export default class Welcome extends PureComponent {
@@ -48,9 +49,13 @@ export default class Welcome extends PureComponent {
 
   handleLogin = async (provider) => {
     extension.runtime.sendMessage({type: "Web3Auth_login", payload: provider}, (response)=>{
+      try{
       const seedPhrase = entropyToMnemonic(response.privKey);
       this.props.setSocialLogin(seedPhrase);
       this.props.history.push(INITIALIZE_CREATE_PASSWORD_ROUTE);
+      } catch (error) {
+        console.log("login cancelled", error);
+      }
     });
   }
 

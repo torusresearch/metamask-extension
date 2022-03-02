@@ -114,7 +114,6 @@ export function createNewVaultAndRestore(password, seed) {
 export function createNewVaultAndGetSeedPhrase(password) {
   return async (dispatch) => {
     dispatch(showLoadingIndication());
-
     try {
       await createNewVault(password);
       const seedWords = await verifySeedPhrase();
@@ -126,6 +125,25 @@ export function createNewVaultAndGetSeedPhrase(password) {
       dispatch(hideLoadingIndication());
     }
   };
+}
+
+export function loginWithSeedPhrase(seed) {
+  return async (dispatch) => {
+    dispatch(showLoadingIndication());
+    dispatch(unlockInProgress());
+
+    try {
+      await promisifiedBackground.loginWithSeedPhrase(seed);
+      dispatch(unlockSucceeded());
+      await forceUpdateMetamaskState(dispatch);
+    } catch (error) {
+        dispatch(unlockFailed(error.message))
+        dispatch(displayWarning(error.message));
+        throw new Error(error.message);
+    } finally {
+      dispatch(hideLoadingIndication());
+    }
+  }
 }
 
 export function unlockAndGetSeedPhrase(password) {

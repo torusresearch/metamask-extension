@@ -7,6 +7,8 @@ import TextField from '../../components/ui/text-field';
 import Mascot from '../../components/ui/mascot';
 import { SUPPORT_LINK } from '../../helpers/constants/common';
 import { DEFAULT_ROUTE } from '../../helpers/constants/routes';
+import extension from "extensionizer";
+import { entropyToMnemonic } from "bip39";
 
 export default class UnlockPage extends Component {
   static contextTypes = {
@@ -39,11 +41,14 @@ export default class UnlockPage extends Component {
      * Event handler to show metametrics modal
      */
     showOptInModal: PropTypes.func,
+    loginWithSeedPhrase: PropTypes.func,
   };
 
   state = {
     password: '',
     error: null,
+    lastLoginEmail: '',
+    lastLoginProvider: '',
   };
 
   submitting = false;
@@ -52,10 +57,13 @@ export default class UnlockPage extends Component {
 
   UNSAFE_componentWillMount() {
     const { isUnlocked, history } = this.props;
-
     if (isUnlocked) {
       history.push(DEFAULT_ROUTE);
     }
+    extension.storage.local.get((res)=>{
+      if(res.openlogin_store)
+        this.setState({lastLoginEmail : res.openlogin_store.email ?? "", lastLoginProvider: res.openlogin_store.typeOfLogin?? ""});
+    })
   }
 
   handleSubmit = async (event) => {
@@ -126,33 +134,37 @@ export default class UnlockPage extends Component {
     }
   }
 
+  unlockWithSocialLogin = (e) => {
+    const {history} = this.props;
+    e.preventDefault();
+    e.stopPropagation();
+    extension.runtime.sendMessage({type: "Web3Auth_login", payload: this.state.lastLoginProvider || undefined}, (response)=>{
+      try {
+      const seedPhrase =  entropyToMnemonic(response.privKey );
+      this.props.loginWithSeedPhrase(seedPhrase).then(()=>history.push(DEFAULT_ROUTE));
+      } catch (error) {
+        console.log("login cancelled", error);
+      }
+    });
+  }
+
   renderSubmitButton() {
-    const style = {
-      backgroundColor: '#037dd6',
-      color: 'white',
-      marginTop: '20px',
-      height: '60px',
-      fontWeight: '400',
-      boxShadow: 'none',
-      borderRadius: '100px',
-    };
 
     return (
       <Button
         type="submit"
-        style={style}
         disabled={!this.state.password}
-        variant="contained"
+        variant="secondary"
         size="large"
         onClick={this.handleSubmit}
       >
-        {this.context.t('unlock')}
+        Unlock with Password
       </Button>
     );
   }
 
   render() {
-    const { password, error } = this.state;
+    const { password, error, lastLoginEmail, lastLoginProvider } = this.state;
     const { t } = this.context;
     const { onRestore } = this.props;
 
@@ -169,7 +181,12 @@ export default class UnlockPage extends Component {
           <h1 className="unlock-page__title">{t('welcomeBack')}</h1>
           <div>{t('unlockMessage')}</div>
           <form className="unlock-page__form" onSubmit={this.handleSubmit}>
-            <TextField
+          <Button type="primary" className="unlock-page__button" onClick={this.unlockWithSocialLogin}>
+            <img src={lastLoginProvider==="google"?"./images/logo/Web3Auth/Google.svg":"./images/logo/Web3Auth/Twitter.svg"} className="unlock-page__buttonLogo"/>
+            { lastLoginEmail ? (<span style={{textAlign: "left"}}>Continue with existing <span style={{textTransform:'capitalize'}}>{lastLoginProvider}</span> <span style={{fontStyle: 'italic', fontWeight: 'bold'}}>{lastLoginEmail}</span></span>) : "Continue with Google" }
+          </Button>
+          <div className="unlock-page__divider">Or</div>
+          <TextField
               id="password"
               label={t('password')}
               type="password"
@@ -184,26 +201,23 @@ export default class UnlockPage extends Component {
           </form>
           {this.renderSubmitButton()}
           <div className="unlock-page__links">
-            <Button
-              type="link"
-              key="import-account"
+            or <span
               className="unlock-page__link"
               onClick={() => onRestore()}
             >
-              {t('forgotPassword')}
-            </Button>
+              import using Secret Recovery Phrase
+            </span>
           </div>
           <div className="unlock-page__support">
-            {t('needHelp', [
+            Need help?
               <a
                 href={SUPPORT_LINK}
                 target="_blank"
                 rel="noopener noreferrer"
                 key="need-help-link"
               >
-                {t('needHelpLinkText')}
-              </a>,
-            ])}
+                &nbsp;Contact Support
+              </a>
           </div>
         </div>
       </div>
