@@ -625,40 +625,47 @@ extension.runtime.onInstalled.addListener(({ reason }) => {
   }
 });
 
-const Web3Auth_login = ({provider = "google"}) => {
-  let redirectURL = chrome.identity.getRedirectURL('redirect.html');
-  let object = {
-      _clientId: 'BOcidFrxNPL3MLUNudE-8ieptwqsA9mohlmip747K7mWjE0jrtN6ztt3yXPLSL8Pmwk1cEqhnvq0tZHp883Dumo',
-      clientId: 'BOcidFrxNPL3MLUNudE-8ieptwqsA9mohlmip747K7mWjE0jrtN6ztt3yXPLSL8Pmwk1cEqhnvq0tZHp883Dumo',
-      _origin: 'https://deccgjilnbocahbokblflodgpilhfjmd.chromiumapp.org',
-      _originData: {
-          'chrome-extension://deccgjilnbocahbokblflodgpilhfjmd': "MEUCIQDte5IUz4ryYScPQQ71fQ5EtBaSd9PbidHh_q7Jee-Y1wIgQkA3S-4apSR-QLjDcZgRoLHx38pzoernVFO-knmfNcs",
-          'https://deccgjilnbocahbokblflodgpilhfjmd.chromiumapp.org':
-              "MEUCIQCUWPPZaVEj_iUvEgXzgUbSuinX7dvy51Jl7d1BehikdQIgDMVT3Fb40FPHDeDuTib3rirRhhKoTzRzFMEXIYbWGeY"
-      },
-      _redirect: redirectURL,
-      redirectUrl: redirectURL,
-      loginProvider: provider,
-      relogin: true
-  }
-  let params = btoa(JSON.stringify(object));
-  let url = "https://app.openlogin.com/start#b64Params=" + params + "&_method=openlogin_login"
+const Web3Auth_login = ({ provider = 'google' }) => {
+  console.log(chrome);
+  const redirectURL = chrome.identity.getRedirectURL('redirect.html');
+  const object = {
+    _clientId:
+      'BPq0JAhOpTVg4UpgTdPQH4AizK-t9SyUInNugZ0kWYMOuVfGsTLZfLkmAg1AoXzQCWDOCtY90CSbVmevli8Mtkc',
+    clientId:
+      'BPq0JAhOpTVg4UpgTdPQH4AizK-t9SyUInNugZ0kWYMOuVfGsTLZfLkmAg1AoXzQCWDOCtY90CSbVmevli8Mtkc',
+    _origin: 'https://oopbnfjonollboeefimdnjoljomcghlm.chromiumapp.org',
+    _originData: {
+      'chrome-extension://oopbnfjonollboeefimdnjoljomcghlm':
+        'MEQCIFvLk2KfRcsfpGGYQJEJf9w7xleY0_QNjBOnFwsKapJ_AiAzj5nDqbfYo_58wQfJDdXTOoCnND2BdvFZLU-_puYiJA',
+      'https://oopbnfjonollboeefimdnjoljomcghlm.chromiumapp.org':
+        'MEQCIHoPCi4KkiFqP4qhZKYlmdCGE-FNpiZrvtDepaKp0EXFAiBV9xAmQbRKnRFJf47UxL979i2UQbDJzPpZ5RSI8Rbfgw',
+    },
+    _redirect: redirectURL,
+    redirectUrl: redirectURL,
+    loginProvider: provider,
+    relogin: true,
+  };
+  const params = btoa(JSON.stringify(object));
+  const url = `https://app.openlogin.com/start#b64Params=${params}&_method=openlogin_login`;
   return new Promise((resolve, reject) => {
-    extension.identity.launchWebAuthFlow({
-      url: url,
-      interactive: true,
-    }, (x) => {
+    chrome.identity.launchWebAuthFlow(
+      {
+        url,
+        interactive: true,
+      },
+      (x) => {
         const params = new URLSearchParams(new URL(x).hash.slice(1));
         const state = JSON.parse(atob(params.get('result')));
-        localStore.set({openlogin_store: state.store});
+        localStore.set({ openlogin_store: state.store });
         resolve(state);
-    });
-  })
-}
+      },
+    );
+  });
+};
 
 extension.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.type == "Web3Auth_login") {
-    Web3Auth_login({provider: message.payload}).then(sendResponse);
+  if (message.type === 'Web3Auth_login') {
+    Web3Auth_login({ provider: message.payload }).then(sendResponse);
     return true;
   }
 });
