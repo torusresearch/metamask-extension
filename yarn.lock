@@ -3539,9 +3539,9 @@
     ses "^0.15.17"
 
 "@metamask/test-dapp@^5.2.0":
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/@metamask/test-dapp/-/test-dapp-5.2.0.tgz#ecae2525e7b4d5ef42b7f478b33e3a25152789f8"
-  integrity sha512-/1nUFm6kzYB0xigrLHc+yzkunnrUoqfnsiLs7eUD+Qfl2Qn5G6C9tIj9cgAx72lWVtqoo2vBTP+55ZW8lDroYw==
+  version "5.7.0"
+  resolved "https://registry.yarnpkg.com/@metamask/test-dapp/-/test-dapp-5.7.0.tgz#8609aa3b24f7bc453d91780d7ad62299227590d5"
+  integrity sha512-tVUwPF4bnKhROiwUbSHAgyuRmEmag+RJfuPCmcvZJLUn+YV6p31+BB3oDazdRjnNrORYf385E+mYihskZdi6VQ==
 
 "@metamask/types@^1.1.0":
   version "1.1.0"
